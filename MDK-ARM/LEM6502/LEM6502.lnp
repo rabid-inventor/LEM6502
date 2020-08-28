@@ -1,0 +1,27 @@
+--cpu=Cortex-M4.fp
+"lem6502\startup_stm32f401xe.o"
+"lem6502\main.o"
+"lem6502\stm32f4xx_it.o"
+"lem6502\stm32f4xx_hal_msp.o"
+"lem6502\6502.o"
+"lem6502\stm32f4xx_hal_tim.o"
+"lem6502\stm32f4xx_hal_tim_ex.o"
+"lem6502\stm32f4xx_hal_uart.o"
+"lem6502\stm32f4xx_hal_rcc.o"
+"lem6502\stm32f4xx_hal_rcc_ex.o"
+"lem6502\stm32f4xx_hal_flash.o"
+"lem6502\stm32f4xx_hal_flash_ex.o"
+"lem6502\stm32f4xx_hal_flash_ramfunc.o"
+"lem6502\stm32f4xx_hal_gpio.o"
+"lem6502\stm32f4xx_hal_dma_ex.o"
+"lem6502\stm32f4xx_hal_dma.o"
+"lem6502\stm32f4xx_hal_pwr.o"
+"lem6502\stm32f4xx_hal_pwr_ex.o"
+"lem6502\stm32f4xx_hal_cortex.o"
+"lem6502\stm32f4xx_hal.o"
+"lem6502\stm32f4xx_hal_exti.o"
+"lem6502\system_stm32f4xx.o"
+--library_type=microlib --strict --scatter "LEM6502\LEM6502.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "LEM6502.map" -o LEM6502\LEM6502.axf
