@@ -4,6 +4,7 @@
 "lem6502\stm32f4xx_it.o"
 "lem6502\stm32f4xx_hal_msp.o"
 "lem6502\6502.o"
+"lem6502\rom.o"
 "lem6502\stm32f4xx_hal_tim.o"
 "lem6502\stm32f4xx_hal_tim_ex.o"
 "lem6502\stm32f4xx_hal_uart.o"

@@ -390,9 +390,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>::CMSIS</GroupName>
-        </Group>
-        <Group>
           <GroupName>Application/User</GroupName>
           <Files>
             <File>
@@ -414,6 +411,11 @@
               <FileName>6502.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\6502.c</FilePath>
+            </File>
+            <File>
+              <FileName>rom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\rom.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -511,6 +513,9 @@
               <FilePath>../Src/system_stm32f4xx.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
     </Target>
