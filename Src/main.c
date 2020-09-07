@@ -69,6 +69,26 @@ void serout(uint8_t val);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+/* UART2 Interrupt Service Routine */
+void USART1_IRQHandler(void)
+{
+  HAL_UART_IRQHandler(&huart1);
+}
+
+/* This callback is called by the HAL_UART_IRQHandler when the given number of bytes are received */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  if (huart->Instance == USART1)
+  {
+    /* Transmit one byte with 100 ms timeout */
+    //HAL_UART_Transmit(&huart2, &byte, 1, 100);
+
+    /* Receive one byte in interrupt mode */ 
+    HAL_UART_Receive_IT(&huart1, &curkey, 1);
+  }
+}
+
 uint8_t RAM[RAM_SIZE];
 
 
@@ -132,7 +152,7 @@ void write6502(uint16_t address, uint8_t value) {
 PUTCHAR_PROTOTYPE   /**RETARGET PRINTF TO UART1***/
 {	
 	
-   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
+   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1,0xF);
 
   return ch;
 }
@@ -151,11 +171,13 @@ GETCHAR_PROTOTYPE
 		
 	uint8_t getkey() {
 				
-				HAL_UART_Receive(&huart1, (uint8_t *)&curkey, 1, 0x2);
+				//HAL_UART_Receive(&huart1, (uint8_t *)&curkey, 1, 0x2);
         uint8_t key = curkey & 0x7F;
         curkey = 0;
         return key;
     }
+	
+		
 		
 /* USER CODE END 0 */
 
@@ -191,6 +213,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	
 	reset6502();
+	HAL_UART_Receive_IT(&huart1, &curkey, 1);
+	  
 	
   /* USER CODE END 2 */
 
@@ -235,7 +259,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV8;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
@@ -243,6 +267,9 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+	SystemCoreClockUpdate();
+	HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/2500);
+	HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 }
 
 /**
@@ -273,7 +300,8 @@ static void MX_USART1_UART_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USART1_Init 2 */
-
+HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
+HAL_NVIC_EnableIRQ(USART1_IRQn);
   /* USER CODE END USART1_Init 2 */
 
 }

@@ -187,7 +187,7 @@ void SysTick_Handler(void)
   HAL_IncTick();
 	
   /* USER CODE BEGIN SysTick_IRQn 1 */
-
+//step6502();
   /* USER CODE END SysTick_IRQn 1 */
 }
 
